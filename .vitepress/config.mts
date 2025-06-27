@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: "/repo/",
+  base: "/blog/",
   srcDir: "src",
   title: "矛盾",
   description: "没有矛盾就没有世界",
