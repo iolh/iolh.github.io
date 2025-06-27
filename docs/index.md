@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: 欢迎收看
-      link: /preface
+      link: /markdown-examples
     - theme: alt
       text: 茶余饭后
       link: /api-examples

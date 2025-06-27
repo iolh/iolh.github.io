@@ -2,8 +2,7 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: "/blog/",
-  srcDir: "src",
+  srcDir: "docs",
   title: "矛盾",
   description: "没有矛盾就没有世界",
   themeConfig: {
@@ -68,7 +67,11 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: "github", link: "https://github.com/vuejs/vitepress" },
+      { icon: "github", link: "https://github.com/iolh/iolh.github.io/" },
     ],
+  },
+  sitemap: {
+    hostname: "https://iolh.github.io/",
+    lastmodDateOnly: false,
   },
 });
