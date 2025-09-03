@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>何小雨's Room</title>
+    <link rel="stylesheet" href="./src/style.scss" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="media/dark-favicon/favicon-96x96.png"
+      sizes="96x96"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/media/dark-faviconfavicon.svg"
+    />
+    <link rel="shortcut icon" href="media/dark-favicon/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="media/dark-favicon/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="media/dark-favicon/site.webmanifest" />
+
+    <meta name="language" content="zh-CN" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/media/og-image.webp" />
+
+    <meta
+      property="og:description"
+      content="生日快乐！又小一岁啦，请继续成长，请继续发光，希望今年的你能够更加勇敢，更加坚定，更加快乐，更加幸福！"
+    />
+  </head>
+  <body class="light-theme">
+    <div class="loading-screen">
+      <button class="loading-screen-button">Loading...</button>
+
+      <button class="no-sound-button"></button>
+
+      <!-- <p class="desktop-instructions instructions">
+        使用左/右键和鼠标滚轮来导航！
+      </p>
+      <p class="mobile-instructions instructions">使用一根或两根手指来导航！</p> -->
+    </div>
+
+    <div class="overlay"></div>
+
+    <button class="mute-toggle-button toggle-buttons">
+      <svg
+        width="800"
+        height="800"
+        viewBox="0 0 800 800"
+        fill="none"
+        class="sound-svg sound-off-svg"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M366.064 567.04C430.064 624 508.464 663.04 545.584 650.56C612.784 625.6 623.984 490.557 623.984 397.117C623.984 371.197 623.984 341.76 620.464 312.641"
+          stroke-width="85"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M596.134 200.963C592.038 188.521 585.44 177.047 576.746 167.252C568.051 157.456 557.443 149.545 545.578 144.002C506.218 129.282 422.698 175.999 353.578 237.119H302.375C268.427 237.119 235.87 250.606 211.865 274.611C187.86 298.616 174.375 331.171 174.375 365.12V429.12C174.365 453.795 181.488 477.952 194.887 498.672C208.285 519.395 227.387 535.802 249.894 545.92"
+          stroke-width="85"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M720 77.4414L80 717.44"
+          stroke-width="85"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+
+      <svg
+        width="800"
+        height="800"
+        viewBox="0 0 800 800"
+        fill="none"
+        class="sound-svg sound-on-svg"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M417.578 144.002C378.218 129.282 294.696 175.999 225.576 237.119H174.375C140.427 237.119 107.87 250.606 83.8653 274.611C59.8605 298.616 46.375 331.171 46.375 365.12V429.12C46.375 463.066 59.8605 495.626 83.8653 519.632C107.87 543.635 140.427 557.12 174.375 557.12H225.576C293.096 619.2 376.618 664.96 417.578 650.56C484.778 625.6 495.974 490.56 495.974 397.12C495.974 303.679 484.778 168.962 417.578 144.002Z"
+          stroke-width="85"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M677.127 215.039C725.098 263.044 752.049 328.134 752.049 396C752.049 463.866 725.098 528.957 677.127 576.96"
+          stroke-width="85"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M609.252 510.4C639.246 480.394 656.097 439.703 656.097 397.277C656.097 354.851 639.246 314.165 609.252 284.16"
+          stroke-width="85"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+
+    <button class="theme-toggle-button toggle-buttons">
+      <svg
+        class="sun-svg"
+        width="800"
+        height="800"
+        viewBox="0 0 800 800"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M733.333 550H66.666M666.666 666.667H133.333M399.999 100V166.667M133.333 433.333H66.666M210.47 243.804L163.329 196.663M589.516 243.804L636.659 196.663M733.333 433.333H666.666M233.333 433.333C233.333 341.287 307.952 266.667 399.999 266.667C492.046 266.667 566.666 341.287 566.666 433.333"
+          stroke-width="85"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <svg
+        class="moon-svg"
+        width="800"
+        height="800"
+        viewBox="0 0 800 800"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M446.619 254.869C449.832 245.908 462.666 245.908 465.879 254.869L474.669 279.371C475.699 282.239 477.983 284.495 480.886 285.511L505.696 294.193C514.766 297.368 514.766 310.04 505.696 313.215L480.886 321.897C477.983 322.913 475.699 325.169 474.669 328.038L465.879 352.54C462.666 361.5 449.832 361.5 446.619 352.54L437.829 328.038C436.799 325.169 434.516 322.913 431.612 321.897L406.803 313.215C397.733 310.04 397.733 297.368 406.803 294.193L431.612 285.511C434.516 284.495 436.799 282.239 437.829 279.371L446.619 254.869Z"
+          fill="currentColor"
+        />
+        <path
+          d="M543.581 363.74C545.724 357.766 554.278 357.766 556.421 363.74L562.281 380.073C562.968 381.986 564.491 383.49 566.427 384.166L582.964 389.956C589.014 392.073 589.014 400.52 582.964 402.636L566.427 408.423C564.491 409.103 562.968 410.606 562.281 412.52L556.421 428.853C554.278 434.826 545.724 434.826 543.581 428.853L537.721 412.52C537.034 410.606 535.511 409.103 533.574 408.423L517.037 402.636C510.987 400.52 510.987 392.073 517.037 389.956L533.574 384.166C535.511 383.49 537.034 381.986 537.721 380.073L543.581 363.74Z"
+          fill="currentColor"
+        />
+        <path
+          d="M592.31 109.728C596.963 96.7573 615.537 96.7573 620.19 109.728L636.14 154.184C637.627 158.335 640.937 161.602 645.14 163.073L690.15 178.825C703.283 183.421 703.283 201.764 690.15 206.36L645.14 222.112C640.937 223.583 637.627 226.85 636.14 231.002L620.19 275.457C615.537 288.428 596.963 288.428 592.31 275.457L576.36 231.002C574.873 226.85 571.563 223.583 567.36 222.112L522.35 206.36C509.217 201.764 509.217 183.421 522.35 178.825L567.36 163.073C571.563 161.602 574.873 158.335 576.36 154.184L592.31 109.728Z"
+          fill="currentColor"
+        />
+        <path
+          d="M100 448.657C100 587.47 215.807 700 358.66 700C468.637 700 562.58 633.31 600 539.277C570.363 552.803 537.27 560.363 502.363 560.363C375.38 560.363 272.441 460.337 272.441 336.947C272.441 285.342 290.446 237.824 320.685 200C195.834 217.85 100 322.377 100 448.657Z"
+          stroke-width="85"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+
+    <div class="work modal">
+      <div class="modal-wrapper">
+        <h1 class="modal-title">~ 送你的礼物 ~</h1>
+
+        <div class="modal-content">
+          <div class="modal-content-wrapper">
+            <div class="work-project">
+              <div class="work-project-wrapper">
+                <div class="work-image-wrapper">
+                  <img
+                    class="work-base-image"
+                    src="/images/community.webp"
+                    alt=""
+                    srcset=""
+                  />
+                </div>
+                <div class="paragraph-section">
+                  <h2 class="modal-paragraph-header">收得到</h2>
+                  <p
+                    class="modal-paragraph-text sm-font"
+                    style="color: hotpink"
+                  >
+                    这个礼物，你一定收得到！
+                  </p>
+                  <p class="modal-paragraph-text sm-font sm-margin-top">
+                    欲寄彩笺兼尺素，山长水阔知何处？
+                  </p>
+                  <p class="modal-paragraph-text sm-font sm-margin-top">
+                    想快点告诉你，我的十二分惦记，再远的路没有什么关系，我的心放在你那里。
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="work-project">
+              <div class="work-project-wrapper">
+                <div class="work-image-wrapper">
+                  <img
+                    class="work-base-image"
+                    src="/images/computer.webp"
+                    alt=""
+                    srcset=""
+                  />
+                </div>
+                <div class="paragraph-section">
+                  <h2 class="modal-paragraph-header">猜不到</h2>
+                  <p
+                    class="modal-paragraph-text sm-font"
+                    style="color: hotpink"
+                  >
+                    它的心思，属于猜不到！
+                  </p>
+                  <p class="modal-paragraph-text sm-font sm-margin-top">
+                    我祈祷拥有一颗透明的心灵和会流泪的眼睛，给我再去相信的勇气。
+                  </p>
+                  <p class="modal-paragraph-text sm-font sm-margin-top">
+                    夜空中最亮的星，请指引我靠近你。
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="work-project">
+              <div class="work-project-wrapper">
+                <div class="work-image-wrapper">
+                  <img
+                    class="work-base-image"
+                    src="/images/piano.webp"
+                    alt=""
+                    srcset=""
+                  />
+                </div>
+                <div class="paragraph-section">
+                  <h2 class="modal-paragraph-header">心意到</h2>
+                  <p
+                    class="modal-paragraph-text sm-font"
+                    style="color: hotpink"
+                  >
+                    好在是，我的心意到！
+                  </p>
+                  <p class="modal-paragraph-text sm-font sm-margin-top">
+                    你像璀璨的烟火绽放我的脑海里，刹那沦陷一见钟情的魔力
+                  </p>
+                  <p class="modal-paragraph-text sm-font sm-margin-top">
+                    跌跌撞撞，我们不期而遇！
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="modal-paragraph-text sm-font">
+          有一个小彩蛋：
+          <span style="color: hotpink"
+            >这个礼物，它的心思好在是，你一定属于我的！</span
+          >
+        </p>
+      </div>
+      <button class="modal-exit-button">
+        <svg
+          width="98"
+          height="96"
+          viewBox="0 0 98 96"
+          class="exit-button-svg"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            width="115.92"
+            height="17.889"
+            rx="8.94448"
+            transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)"
+            fill="currentColor"
+          />
+          <rect
+            width="115.92"
+            height="17.889"
+            rx="8.94448"
+            transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="about modal">
+      <div class="modal-wrapper">
+        <h1 class="modal-title">~ 园游会 ~</h1>
+
+        <div class="modal-content">
+          <div class="modal-content-wrapper">
+            <div class="paragraph-section">
+              <div class="image-wrapper">
+                <img
+                  class="base-image"
+                  src="/images/profile_pic.webp"
+                  alt=""
+                  srcset=""
+                />
+              </div>
+              <p class="modal-paragraph-text">琥珀色黄昏像糖在很美的远方</p>
+              <p class="modal-paragraph-text sm-margin-top">
+                你的脸没有化妆我却疯狂爱上
+              </p>
+              <p class="modal-paragraph-text sm-margin-top">
+                思念跟影子在傍晚一起被拉长
+              </p>
+              <p class="modal-paragraph-text sm-margin-top">
+                我手中那张入场券陪我数羊
+              </p>
+              <p class="modal-paragraph-text sm-margin-top">
+                薄荷色草地芬芳像风没有形状
+              </p>
+              <p class="modal-paragraph-text sm-margin-top">
+                我却能够牢记你的气质跟脸庞
+              </p>
+              <p class="modal-paragraph-text sm-margin-top">
+                冷空气跟琉璃在清晨很有透明感
+              </p>
+              <p class="modal-paragraph-text sm-margin-top">
+                像我的喜欢被你看穿
+              </p>
+              <p class="modal-paragraph-text sm-margin-top">摊位上一朵艳阳</p>
+              <p class="modal-paragraph-text sm-margin-top">我悄悄出现在身旁</p>
+              <p class="modal-paragraph-text sm-margin-top">你慌乱的模样</p>
+              <p class="modal-paragraph-text sm-margin-top">我微笑安静欣赏</p>
+              <p class="modal-paragraph-text sm-margin-top">我顶着大太阳</p>
+              <p class="modal-paragraph-text sm-margin-top">只想为你撑伞</p>
+              <p class="modal-paragraph-text sm-margin-top">你靠在我肩膀</p>
+              <p class="modal-paragraph-text sm-margin-top">深呼吸怕遗忘</p>
+              <p class="modal-paragraph-text sm-margin-top">
+                因为捞鱼的蠢游戏我们开始交谈
+              </p>
+              <p class="modal-paragraph-text sm-margin-top">
+                多希望话题不断园游会永不打烊
+              </p>
+              <p class="modal-paragraph-text sm-margin-top">气球在我手上</p>
+              <p class="modal-paragraph-text sm-margin-top">我牵着你瞎逛</p>
+              <p class="modal-paragraph-text sm-margin-top">有话想对你讲</p>
+              <p class="modal-paragraph-text sm-margin-top">你眼睛却装忙</p>
+              <p class="modal-paragraph-text sm-margin-top">
+                鸡蛋糕跟你嘴角果酱我都想要尝
+              </p>
+              <p class="modal-paragraph-text sm-margin-top">园游会影片在播放</p>
+              <p
+                class="modal-paragraph-text sm-margin-top"
+                style="color: deepskyblue"
+              >
+                这个世界约好一起逛!
+              </p>
+              <h2 class="modal-paragraph-header-2 sm-margin-top">
+                作品集致谢和灵感来源：
+              </h2>
+              <ul>
+                <li class="list-text-2">
+                  音乐名为《园游会》，由 Jay Chou 创作！
+                </li>
+                <li class="list-text-2">
+                  这个作品集受到 Andrew Woan 的房间作品集以及 Denis Wipart 和
+                  Nicky Blender 的艺术启发！
+                </li>
+                <li class="list-text-2">
+                  另外，这个作品集中的钢琴是可以工作的！！试试弹一首歌吧！
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="modal-exit-button">
+        <svg
+          width="98"
+          height="96"
+          viewBox="0 0 98 96"
+          class="exit-button-svg"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            width="115.92"
+            height="17.889"
+            rx="8.94448"
+            transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)"
+            fill="currentColor"
+          />
+          <rect
+            width="115.92"
+            height="17.889"
+            rx="8.94448"
+            transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="contact modal">
+      <div class="modal-wrapper">
+        <h1 class="modal-title">~ 打个招呼吧！~</h1>
+
+        <div class="modal-content">
+          <div class="modal-content-wrapper">
+            <div class="paragraph-section">
+              <h2 class="modal-paragraph-header xsm-margin-top">
+                何小雨，如果你也喜欢这个有趣的礼物，请亲自告诉我哦~😊😊
+              </h2>
+              <h2
+                class="modal-paragraph-text xsm-margin-top"
+                style="font-family: 'hxylh'"
+              >
+                ps: 我才不稀罕加你的微信，哼！😜
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="modal-exit-button">
+        <svg
+          width="98"
+          height="96"
+          viewBox="0 0 98 96"
+          class="exit-button-svg"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            width="115.92"
+            height="17.889"
+            rx="8.94448"
+            transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)"
+            fill="currentColor"
+          />
+          <rect
+            width="115.92"
+            height="17.889"
+            rx="8.94448"
+            transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <div id="experience">
+      <canvas id="experience-canvas" class="experience-canvas"></canvas>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
