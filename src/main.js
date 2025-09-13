@@ -1184,17 +1184,235 @@ const smoke = new THREE.Mesh(smokeGeometry, smokeMaterial);
 smoke.position.y = 1.83;
 scene.add(smoke);
 
-const videoElement = document.createElement("video");
-videoElement.src = "/textures/video/Screen.mp4";
-videoElement.loop = true;
-videoElement.muted = true;
-videoElement.playsInline = true;
-videoElement.autoplay = true;
-videoElement.play();
+class VideoManager {
+  constructor() {
+    this.videos = new Map();
+    this.textures = new Map();
+    this.currentNightVideoIndex = 1; // 夜晚模式当前视频索引
+    this.videoList = [
+      "/textures/video/Screen.mp4",    // 白天模式视频
+      "/textures/video/Screen1.mp4",   // 夜晚模式视频1
+      "/textures/video/Screen2.mp4",   // 夜晚模式视频2
+      "/textures/video/Screen3.mp4",   // 夜晚模式视频3
+      "/textures/video/Screen4.mp4",   // 夜晚模式视频4
+      "/textures/video/Screen5.mp4",   // 夜晚模式视频5
+      "/textures/video/Scrren6.mp4",   // 夜晚模式视频6
+    ];
+    
+    // 为每个视频设置不同的裁剪配置
+    this.cropConfigs = [
+      { type: 'center', offset: 0 },           // Screen.mp4 - 居中裁剪
+      { type: 'top', offset: 0.2 },            // Screen1.mp4 - 从上往下，跳过上10%
+      { type: 'top', offset: 0.25 },            // Screen2.mp4 - 从上往下，跳过上20%
+      { type: 'top', offset: 0.1 },           // Screen3.mp4 - 居中裁剪
+      { type: 'top', offset: 0.3 },           // Screen4.mp4 - 从上往下，跳过上15%
+      { type: 'top', offset: 0.25 },         // Screen5.mp4 - 从下往上，跳过下10%
+      { type: 'top', offset: 0.25 },           // Scrren6.mp4 - 从上往下，跳过上25%
+    ];
+  }
 
-const videoTexture = new THREE.VideoTexture(videoElement);
-videoTexture.colorSpace = THREE.SRGBColorSpace;
-videoTexture.flipY = false;
+  // 创建视频元素和纹理
+  createVideoTexture(videoSrc, videoIndex, targetAspectRatio = 16/9) {
+    const videoElement = document.createElement("video");
+    videoElement.src = videoSrc;
+    videoElement.loop = false; // 改为不循环，实现续播功能
+    videoElement.muted = true;
+    videoElement.playsInline = true;
+    videoElement.autoplay = true;
+    videoElement.crossOrigin = "anonymous";
+    videoElement.preload = "auto"; // 预加载视频
+    
+    const videoTexture = new THREE.VideoTexture(videoElement);
+    videoTexture.colorSpace = THREE.SRGBColorSpace;
+    videoTexture.flipY = false;
+    // 设置纹理包装模式，防止拉伸
+    videoTexture.wrapS = THREE.ClampToEdgeWrapping;
+    videoTexture.wrapT = THREE.ClampToEdgeWrapping;
+    // 设置纹理过滤模式，保持清晰度
+    videoTexture.minFilter = THREE.LinearFilter;
+    videoTexture.magFilter = THREE.LinearFilter;
+
+    // 根据视频索引应用不同的裁剪逻辑
+    videoElement.addEventListener('loadedmetadata', () => {
+      const videoAspectRatio = videoElement.videoWidth / videoElement.videoHeight;
+      const cropConfig = this.cropConfigs[videoIndex] || { type: 'center', offset: 0 };
+      
+      if (videoAspectRatio > targetAspectRatio) {
+        // 视频比目标更宽，需要裁剪左右
+        const scale = targetAspectRatio / videoAspectRatio;
+        videoTexture.repeat.set(scale, 1);
+        videoTexture.offset.set((1 - scale) / 2, 0);
+      } else {
+        // 视频比目标更高，需要裁剪上下
+        const scale = videoAspectRatio / targetAspectRatio;
+        videoTexture.repeat.set(1, scale);
+        
+        // 根据裁剪配置设置偏移量
+        switch (cropConfig.type) {
+          case 'top':
+            // 从上往下裁剪，跳过指定比例的上部分
+            videoTexture.offset.set(0, cropConfig.offset);
+            break;
+          case 'bottom':
+            // 从下往上裁剪，跳过指定比例的下部分
+            videoTexture.offset.set(0, 0);
+            break;
+          case 'center':
+          default:
+            // 居中裁剪
+            videoTexture.offset.set(0, (1 - scale) / 2);
+            break;
+        }
+      }
+    });
+
+    return { videoElement, videoTexture };
+  }
+
+  // 初始化所有视频
+  initializeVideos() {
+    this.videoList.forEach((videoSrc, index) => {
+      const { videoElement, videoTexture } = this.createVideoTexture(videoSrc, index);
+      this.videos.set(index, videoElement);
+      this.textures.set(index, videoTexture);
+      
+      // 添加视频结束事件监听器
+      videoElement.addEventListener('ended', () => {
+        this.handleVideoEnded(index);
+      });
+      
+      // 添加视频加载完成事件
+      videoElement.addEventListener('canplaythrough', () => {
+      });
+    });
+  }
+
+  // 处理视频播放结束
+  handleVideoEnded(endedVideoIndex) {
+    const isNightMode = document.body.classList.contains("dark-theme");
+    
+    if (isNightMode && endedVideoIndex >= 1) {
+      // 夜晚模式：切换到下一个夜晚视频
+      this.currentNightVideoIndex++;
+      if (this.currentNightVideoIndex >= this.videoList.length) {
+        this.currentNightVideoIndex = 1; // 回到第一个夜晚视频
+      }
+      this.playVideo(this.currentNightVideoIndex);
+    } else if (!isNightMode && endedVideoIndex === 0) {
+      // 白天模式：重新播放第一个视频
+      this.playVideo(0);
+    }
+  }
+
+  // 根据模式播放视频
+  playVideoForMode(isNightMode) {
+    // 先暂停所有视频
+    this.pauseAllVideos();
+    
+    if (isNightMode) {
+      // 夜晚模式：按顺序播放视频1或视频2
+      this.playVideo(this.currentNightVideoIndex);
+    } else {
+      // 白天模式：播放视频0
+      this.playVideo(0);
+    }
+  }
+
+  // 播放指定视频
+  playVideo(index) {
+    const video = this.videos.get(index);
+    if (video) {
+      video.currentTime = 0; // 从头开始播放
+      video.play().catch(e => console.log(`视频 ${index + 1} 播放失败:`, e));
+      this.updateAllScreenMaterials(this.textures.get(index));
+    }
+  }
+
+  // 获取当前视频纹理
+  getCurrentTexture() {
+    return this.textures.get(0); // 默认返回第一个视频纹理
+  }
+
+  // 更新所有屏幕材质
+  updateAllScreenMaterials(newTexture) {
+    scene.traverse((child) => {
+      if (child.isMesh && child.name.includes("Screen")) {
+        child.material.map = newTexture;
+        child.material.needsUpdate = true;
+      }
+    });
+  }
+
+  // 暂停所有视频
+  pauseAllVideos() {
+    this.videos.forEach(video => {
+      video.pause();
+    });
+  }
+
+  // 获取视频数量
+  getVideoCount() {
+    return this.videoList.length;
+  }
+
+  // 获取当前视频索引
+  getCurrentVideoIndex() {
+    return this.currentVideoIndex;
+  }
+}
+
+// 创建视频管理器实例
+const videoManager = new VideoManager();
+videoManager.initializeVideos();
+
+// 获取当前视频纹理（用于向后兼容）
+const videoTexture = videoManager.getCurrentTexture();
+
+// 初始化视频播放
+function initializeVideoPlayback() {
+  // 等待所有视频加载完成
+  let loadedCount = 0;
+  const totalVideos = videoManager.getVideoCount();
+  
+  videoManager.videos.forEach((video, index) => {
+    video.addEventListener('canplaythrough', () => {
+      loadedCount++;
+      
+      if (loadedCount === totalVideos) {
+        startVideoPlayback();
+      }
+    });
+  });
+  
+  // 如果3秒后还有视频未加载完成，强制开始播放
+  setTimeout(() => {
+    if (loadedCount < totalVideos) {
+      startVideoPlayback();
+    }
+  }, 3000);
+}
+
+// 开始视频播放
+function startVideoPlayback() {
+  // 根据当前模式开始播放
+  const isNightMode = document.body.classList.contains("dark-theme");
+  videoManager.playVideoForMode(isNightMode);
+}
+
+// 存储所有屏幕对象，用于不同屏幕显示不同视频
+const screenObjects = [];
+
+// 页面加载完成后自动启动播放
+document.addEventListener('DOMContentLoaded', () => {
+  initializeVideoPlayback();
+});
+
+// 如果DOMContentLoaded已经触发，立即初始化
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeVideoPlayback);
+} else {
+  initializeVideoPlayback();
+}
 
 /**  -------------------------- Model and Mesh Setup -------------------------- */
 
@@ -1494,12 +1712,24 @@ loader.load("/models/Room_Portfolio.glb", (glb) => {
       } else if (child.name.includes("Bubble")) {
         child.material = whiteMaterial;
       } else if (child.name.includes("Screen")) {
+        // 为不同屏幕分配不同视频
+        const screenIndex = screenObjects.length;
+        const videoIndex = screenIndex % videoManager.getVideoCount();
+        const screenVideoTexture = videoManager.textures.get(videoIndex);
+        
         child.material = new THREE.MeshBasicMaterial({
-          map: videoTexture,
+          map: screenVideoTexture,
           transparent: true,
           opacity: 0.9,
         });
-      } else {
+        
+        // 存储屏幕对象信息
+        screenObjects.push({
+          mesh: child,
+          videoIndex: videoIndex,
+          name: child.name
+        });
+              } else {
         Object.keys(textureMap).forEach((key) => {
           if (child.name.includes(key)) {
             child.material = roomMaterials[key];
@@ -1980,6 +2210,9 @@ const handleThemeToggle = (e) => {
   
   // 切换背景音乐
   switchBackgroundMusic(isNightMode);
+  
+  // 切换视频播放
+  videoManager.playVideoForMode(isNightMode);
   
   buttonSounds.click.play();
 
