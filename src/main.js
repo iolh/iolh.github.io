@@ -30,7 +30,7 @@ const dayBackgroundMusic = new Howl({
 });
 
 const nightBackgroundMusic = new Howl({
-  src: ["/audio/music/happy_birthday.mp3"],
+  src: ["/audio/music/miss_you.mp3"],
   loop: true,
   volume: 1,
 });
@@ -1191,6 +1191,7 @@ class VideoManager {
     this.currentNightVideoIndex = 1; // 夜晚模式当前视频索引
     this.videoList = [
       "/textures/video/Screen.mp4",    // 白天模式视频
+      "/textures/video/life.mp4",   // 夜晚模式视频1
       "/textures/video/Screen1.mp4",   // 夜晚模式视频1
       "/textures/video/Screen2.mp4",   // 夜晚模式视频2
       "/textures/video/Screen3.mp4",   // 夜晚模式视频3
